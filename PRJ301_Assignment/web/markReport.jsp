@@ -1,13 +1,16 @@
+<%-- 
+    Document   : markReport
+    Created on : Jul 5, 2022, 6:06:43 PM
+    Author     : oki
+--%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
         <style>
             *{
                 margin: 0;
@@ -44,6 +47,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </style>
     </head>
     <body>
+        <body>
         <div class="grade-report">
             <div class="header">
                 <div class="left">
@@ -70,36 +74,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <div class="term">
                                     <table>
                                         <tbody>
+                                            <c:forEach items="${requestScope.se}" var="s">
                                             <tr>
-                                                <td><a href=""> Summer 2019</a></td>
+                                                <td><a href="semester?seid=${s.seid}"> ${s.name}</a></td>
                                             </tr>
-                                            <tr>
-                                                <td><a href=""> Fall 2019</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href=""> Spring 2020</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href=""> Summer 2020</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href=""> Fall 2020</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href=""> Spring 2021</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href=""> Summer 2021</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href=""> Fall 2021</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href=""> Spring 2022</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href=""> Summer 2022</a></td>
-                                            </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -234,5 +213,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
             </div>
         
+    </body>
     </body>
 </html>
