@@ -5,21 +5,19 @@
 
 package controller;
 
-import dal.SemesterDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.Semester;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author oki
  */
-public class SemesterController extends HttpServlet {
+public class LogoutController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,11 +29,9 @@ public class SemesterController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        SemesterDAO se = new SemesterDAO();
-        ArrayList<Semester> lse = se.getSemseter();
-        
-        request.setAttribute("se", lse);
-        request.getRequestDispatcher("markReport.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        session.removeAttribute("account");
+        response.sendRedirect("login.jsp");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
