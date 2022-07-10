@@ -10,10 +10,18 @@ package model;
  */
 public class Assesment {
     private int aid;
-    private int name;
+    private String name;
     private double weight;
     private Course course;
+    private Grade grade;
 
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
     public Assesment() {
     }
 
@@ -25,13 +33,20 @@ public class Assesment {
         this.aid = aid;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Assesment{" + "aid=" + aid + ", name=" + name + ", weight=" + weight + ", course=" + course + '}';
+    }
+
+  
 
     public double getWeight() {
         return weight;
@@ -49,9 +64,6 @@ public class Assesment {
         this.course = course;
     }
 
-    @Override
-    public String toString() {
-        return "Assesment{" + "aid=" + aid + ", name=" + name + ", weight=" + weight + ", course=" + course + '}';
-    }
+   
     
 }

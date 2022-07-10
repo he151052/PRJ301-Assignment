@@ -13,13 +13,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import model.Course;
-import model.Semester;
 
 /**
  *
  * @author oki
  */
-public class GradeReport extends HttpServlet {
+public class CourseController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,8 +31,7 @@ public class GradeReport extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,13 +46,13 @@ public class GradeReport extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SemesterDAO se = new SemesterDAO();
-        ArrayList<Semester> list = se.getSemseter();
-//        ArrayList<Course> course = se.getCourse();
-//        request.setAttribute("listCO", course);
-        request.setAttribute("listSE", list);
-        
-        request.getRequestDispatcher("markReport.jsp").forward(request, response);
+        String seid_raw = request.getParameter("seid");
+        int seid = Integer.parseInt(seid_raw);
+        SemesterDAO dao = new SemesterDAO();
+        ArrayList<Course> listC = dao.getCourseBySeid(seid);
+
+        request.setAttribute("listCO", listC);
+        request.getRequestDispatcher("semester").forward(request, response);
     }
 
     /**
@@ -68,8 +66,7 @@ public class GradeReport extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+        processRequest(request, response);
     }
 
     /**

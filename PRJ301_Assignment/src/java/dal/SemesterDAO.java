@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Assesment;
 import model.Course;
+import model.Grade;
 import model.Semester;
 
 /**
@@ -38,6 +40,24 @@ public class SemesterDAO extends DBContext {
         return list;
     }
 
+    public Semester getSemesterById(int seid) {
+        try {
+            String sql = "select * from Semester where seid = ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, seid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Semester se = new Semester();
+                se.setSeid(rs.getInt("seid"));
+                se.setName(rs.getString("name"));
+                return se;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SemesterDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public ArrayList<Course> getCourseBySeid(int seid) {
         ArrayList<Course> lc = new ArrayList<>();
         try {
@@ -50,11 +70,9 @@ public class SemesterDAO extends DBContext {
                 Course c = new Course();
                 c.setCid(rs.getInt("cid"));
                 c.setcName(rs.getString("cname"));
-                
-                Semester se = new Semester();
-                se.setSeid(rs.getInt("seid"));
-                se.setName(rs.getString("cname"));
-               c.setSe(se);
+
+                Semester se = getSemesterById(rs.getInt("seid"));
+                c.setSe(se);
                 c.setCredit(rs.getInt("credit"));
                 lc.add(c);
             }
@@ -63,43 +81,78 @@ public class SemesterDAO extends DBContext {
         }
         return lc;
     }
-
-    public ArrayList<Course> getCourse() {
-        ArrayList<Course> lc = new ArrayList<>();
+    
+    
+    public Course getCourseById(int cid) {
+        
         try {
-            String sql = "select * from Course";
+            String sql = "select * from Course where cid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, cid);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Course c = new Course();
                 c.setCid(rs.getInt("cid"));
                 c.setcName(rs.getString("cname"));
-                Semester s = new Semester();
-                s.setSeid(rs.getInt("seid"));
-                s.setName(rs.getString("cname"));
-                c.setSe(s);
-                c.setCredit(rs.getInt("credit"));
-                lc.add(c);
+                Semester se = getSemesterById(rs.getInt("seid"));
+                c.setSe(se);
+                return c;
             }
         } catch (SQLException ex) {
             Logger.getLogger(SemesterDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lc;
+        return null;
     }
-    
-    
+
+    public ArrayList<Assesment> getAssesmentByCID(int cid) {
+        ArrayList<Assesment> ass = new ArrayList<>();
+        try {
+            String sql = "Select * from Assesment a\n"
+                    + "Inner Join Course c\n"
+                    + "ON a.cid = c.cid\n"
+                    + "inner join Grade g\n"
+                    + "on a.aid = g.aid\n"
+                    + "where c.[cid] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, cid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Assesment a = new Assesment();
+                a.setAid(rs.getInt("aid"));
+                a.setName(rs.getString("name"));
+                a.setWeight(rs.getDouble("weight"));
+                Course c = getCourseById(rs.getInt("cid"));
+                a.setCourse(c);
+                Grade g = new Grade();
+                g.setGrade(rs.getDouble("grade"));
+                a.setGrade(g);
+                ass.add(a);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SemesterDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ass;
+    }
 
     public static void main(String[] args) {
         SemesterDAO dao = new SemesterDAO();
         ArrayList<Semester> list = dao.getSemseter();
-        ArrayList<Course> lc = dao.getCourseBySeid(1);
-        ArrayList<Course> cl = dao.getCourse();
-        System.out.println(lc);
-        for (Course co : cl) {
-            System.out.println(co);
-        }
+        ArrayList<Course> lc = dao.getCourseBySeid(5);
+//        ArrayList<Course> cl = dao.getCourse();
+//        System.out.println(lc);
+//        for (Course co : cl) {
+//            System.out.println(co);
+//        }
 //        for (Semester se: list) {
 //            System.out.println(se);
 //        }
+
+//            Course a = dao.getCourseById(1);
+//            System.out.println(a);
+            ArrayList<Assesment> ass = dao.getAssesmentByCID(1);
+            for(Assesment a : ass){
+                System.out.println(ass);
+            }
+        
     }
 }

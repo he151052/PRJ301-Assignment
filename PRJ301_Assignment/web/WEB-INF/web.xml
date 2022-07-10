@@ -12,6 +12,14 @@
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>controller.LogoutController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CourseController</servlet-name>
+        <servlet-class>controller.CourseController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AssesmentController</servlet-name>
+        <servlet-class>controller.AssesmentController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GradeReport</servlet-name>
         <url-pattern>/semester</url-pattern>
@@ -23,6 +31,14 @@
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CourseController</servlet-name>
+        <url-pattern>/course</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AssesmentController</servlet-name>
+        <url-pattern>/assesment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

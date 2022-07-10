@@ -15,7 +15,6 @@
     <body>
         <div class="header">
             <c:if test="${sessionScope.account != null}">
-                
                 <a>${sessionScope.account.username}</a>
                     | 
                 <a href="logout">logout</a>

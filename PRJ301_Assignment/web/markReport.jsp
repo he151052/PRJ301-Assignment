@@ -40,27 +40,35 @@
                 background-color: rgb(76, 238, 143);
             }
             .container{
-                margin: 0 auto;
+                margin: 20px auto;
                 width: 90%;
-                padding-top: 50px;
+               
+
             }
             .display_grade{
-                margin:0 auto auto;
+                margin:0 auto;
                 width: 90%;
             }
             a{
                 text-decoration: none;
+                color: black;
             }
+            a:hover{
+                color:red;
+            }
+
+            
         </style>
     </head>
     <body>
     <body>
-        <div class="grade-report">
-            <div class="header">
-                <div class="left">
-                    <a href="home.jsp" style="color:rgb(115, 201, 252)">Home</a>
-                </div>
-                <div class="right">
+        <jsp:text></jsp:text>
+            <div class="grade-report">
+                <div class="header">
+                    <div class="left">
+                        <a href="home.jsp" style="color:rgb(115, 201, 252)">Home</a>
+                    </div>
+                    <div class="right">
                     <c:if test="${sessionScope.account != null}">
                         <a>${sessionScope.account.username}</a>
                         | 
@@ -72,23 +80,23 @@
             <div class="container">
                 <c:if test="${sessionScope.account != null}">
                     <h2>Grade report for <strong style="color: red">${sessionScope.account.username}</strong> </h2></c:if>
-                <h3 style="margin-top:50px;margin-bottom: 20px">Select a term, course... </h3>
-                <table border="1" style="width: inherit">
-                    <thead>
-                        <tr>
-                            <th>Term</th>
-                            <th>Course</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="term">
-                                    <table>
-                                        <tbody>
+                    <h3 style="margin-top:50px;margin-bottom: 20px">Select a term, course... </h3>
+                    <table border="1" style="width: inherit">
+                        <thead>
+                            <tr>
+                                <th>Term</th>
+                                <th>Course</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="term">
+                                        <table>
+                                            <tbody>
                                             <c:forEach items="${requestScope.listSE}" var="s">
                                                 <tr>
-                                                    <td><a href="semester?seid=${s.seid}"> ${s.name}</a></td>
+                                                    <td><a  href="course?seid=${s.seid}"> ${s.name}</a></td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -101,7 +109,7 @@
                                         <tbody>
                                             <c:forEach items="${requestScope.listCO}" var="c">
                                                 <tr>
-                                                    <td><a href=""> ${c.cName}</a></td>
+                                                    <td><a href="assesment?cid=${c.cid}">${c.cName}</a></td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -132,86 +140,38 @@
                 <th>Comment</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td rowspan="3">Assignment</td>
-                        <td>Assignment1</td>
-                        <td>10%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
+                    <c:forEach items="${requestScope.listA}" var="a">
+                        <tr>
+                            <td rowspan="2">${a.name}</td>
+                            <td>${a.name}</td>
+                            <td>${a.weight*100}%</td>
+                            <td>${a.grade.grade}</td>
+                            <td></td>
+                        </tr>
+                        
+                        <tr>
+                            <td >Total</td>
 
-                        <td>Assignment2</td>
-                        <td>10%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td >Total</td>
-                        <td>20%</td>
+                            <td>${a.weight*100}%</td>
 
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td rowspan="3">ProgressTest</td>
-                        <td>ProgressTest1</td>
-                        <td>10%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
 
-                        <td>ProgressTest1</td>
-                        <td>10%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
 
-                        <td>Total</td>
-                        <td>20%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2">Practise Exam</td>
-                        <td>Practice Exam</td>
-                        <td>30%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td>30%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2">Final Exam</td>
-                        <td>Final Exam</td>
-                        <td>30%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td>30%</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+
+                    </c:forEach>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td rowspan="2">Course Total</td>
                         <td>Average</td>
-                        <td>0.0</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>Status</td>
                         <td>Studying</td>
-                        <td></td>
-                        <td></td>
+
                     </tr>
                 </tfoot>
             </table>
