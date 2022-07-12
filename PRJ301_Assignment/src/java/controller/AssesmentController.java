@@ -32,18 +32,7 @@ public class AssesmentController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AssesmentController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AssesmentController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -62,6 +51,21 @@ public class AssesmentController extends HttpServlet {
         int cid = Integer.parseInt(cid_raw);
         ArrayList<Assesment> ass = dao.getAssesmentByCID(cid);
 
+        float avg = 0;
+        for (Assesment as : ass) {
+            avg = (float) (as.getGrade().getGrade() * as.getWeight() +  avg);
+        }
+        String p = "passed";
+        String n = "not passed";
+        String status ="";
+        if(avg >= 5.0){
+            status += p;
+        }else{
+            status += n;
+        }
+        
+        request.setAttribute("status", status);
+        request.setAttribute("avg", avg);
         request.setAttribute("listA", ass);
         request.getRequestDispatcher("semester").forward(request, response);
     } 

@@ -42,7 +42,7 @@
             .container{
                 margin: 20px auto;
                 width: 90%;
-               
+
 
             }
             .display_grade{
@@ -57,7 +57,7 @@
                 color:red;
             }
 
-            
+
         </style>
     </head>
     <body>
@@ -73,7 +73,6 @@
                         <a>${sessionScope.account.username}</a>
                         | 
                         <a href="logout">logout</a>
-
                     </c:if>
                 </div>
             </div>
@@ -97,6 +96,7 @@
                                             <c:forEach items="${requestScope.listSE}" var="s">
                                                 <tr>
                                                     <td><a  href="course?seid=${s.seid}"> ${s.name}</a></td>
+
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -110,34 +110,29 @@
                                             <c:forEach items="${requestScope.listCO}" var="c">
                                                 <tr>
                                                     <td><a href="assesment?cid=${c.cid}">${c.cName}</a></td>
+
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
                             </td>
-
                             </div>
-
                             </td>
                         </tr>
-
                     </tbody>
                 </table>
-
             </div>
         </div>
 
         <div class="display_grade"  >
             <caption></caption>
             <table >
-
                 <thead>
                 <th>Grade Category</th>
                 <th>Grade Item</th>
                 <th>Weight</th>
-                <th>Value</th>
-                <th>Comment</th>
+                <th>Value</th>                
                 </thead>
                 <tbody>
                     <c:forEach items="${requestScope.listA}" var="a">
@@ -148,33 +143,43 @@
                             <td>${a.grade.grade}</td>
                             <td></td>
                         </tr>
-                        
                         <tr>
                             <td >Total</td>
-
                             <td>${a.weight*100}%</td>
-
                             <td></td>
                             <td></td>
                         </tr>
-
-
-
                     </c:forEach>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td rowspan="2">Course Total</td>
-                        <td>Average</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Status</td>
-                        <td>Studying</td>
-
+                        <td rowspan="2"><strong>Course Total</strong></td>
+                        <td><strong>Average</strong></td>
+                        <c:forEach items="${requestScope.avg} " >
+                            <td><strong style="font-size: 20px">${avg}</strong></td></c:forEach>
+                        </tr>
+                        <tr>
+                            <td><strong>Status</strong></td>
+                        <c:forEach items="${requestScope.status}">
+                            <td><strong style="font-size: 17px;text-transform: uppercase"id="status">${status}</strong></td>
+                            </c:forEach>
                     </tr>
                 </tfoot>
             </table>
         </div>
+        <script  language="javascript">
+            var x = document.getElementById("status").innerText ;
+            var p = "passed";
+            var n = "not passed";
+            if(x === n){
+                document.getElementById("status").style.color = "red";
+            }
+            else
+            {
+                document.getElementById("status").style.color = "green";
+            }
+            
+        </script>
+
     </body>
 </html>
