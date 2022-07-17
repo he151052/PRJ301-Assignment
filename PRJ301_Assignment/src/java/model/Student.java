@@ -16,6 +16,11 @@ public class Student {
     public Student() {
     }
 
+    @Override
+    public String toString() {
+        return "Student{" + "sid=" + sid + ", name=" + name + ", group=" + group + '}';
+    }
+
     public Student(String sid, String name, Group group) {
         this.sid = sid;
         this.name = name;

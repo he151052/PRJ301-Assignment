@@ -81,10 +81,9 @@ public class SemesterDAO extends DBContext {
         }
         return lc;
     }
-    
-    
+
     public Course getCourseById(int cid) {
-        
+
         try {
             String sql = "select * from Course where cid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -94,6 +93,7 @@ public class SemesterDAO extends DBContext {
                 Course c = new Course();
                 c.setCid(rs.getInt("cid"));
                 c.setcName(rs.getString("cname"));
+                c.setCredit(rs.getInt("credit"));
                 Semester se = getSemesterById(rs.getInt("seid"));
                 c.setSe(se);
                 return c;
@@ -134,6 +134,59 @@ public class SemesterDAO extends DBContext {
         return ass;
     }
 
+    public ArrayList<Semester> getTranscript() {
+        ArrayList<Semester> list = new ArrayList<>();
+        try {
+            String sql = "select ROW_NUMBER() over (order by s.seid asc) as  [no],"
+                    + "s.seid, s.[name],c.cid, c.[cname],c.credit from [Semester] s inner join Course c\n"
+                    + "on s.seid = c.seid ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Semester se = new Semester();
+                se.setNo(rs.getInt("no"));
+                se.setSeid(rs.getInt("seid"));
+                se.setName(rs.getString("name"));
+                Course c = getCourseById(rs.getInt("cid"));
+                se.setCourse(c);
+                list.add(se);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SemesterDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public ArrayList<Course> getCourse() {
+        ArrayList<Course> list = new ArrayList<>();
+        try {
+            String sql = "select * from Course c inner join Assesment a\n"
+                    + "on c.cid = a.cid inner join Grade g on a.aid = g.aid";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Course c = new Course();
+                c.setCid(rs.getInt("cid"));
+                Assesment a = new Assesment();
+                a.setAid(rs.getInt("aid"));
+                a.setName(rs.getString("name"));
+                a.setWeight(rs.getFloat("weight"));
+                Grade g = new Grade();
+                g.setGrade(rs.getFloat("grade"));
+                a.setGrade(g);
+                Course co = new Course();
+                co.setCid(rs.getInt("cid"));
+                a.setCourse(co);
+                c.setAss(a);
+                list.add(c);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SemesterDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         SemesterDAO dao = new SemesterDAO();
         ArrayList<Semester> list = dao.getSemseter();
@@ -147,12 +200,19 @@ public class SemesterDAO extends DBContext {
 //            System.out.println(se);
 //        }
 
-//            Course a = dao.getCourseById(1);
-//            System.out.println(a);
-            ArrayList<Assesment> ass = dao.getAssesmentByCID(1);
-            for(Assesment a : ass){
-                System.out.println(ass);
-            }
-        
+//        Course a = dao.getCourseById(1);
+//        System.out.println(a);
+//            ArrayList<Assesment> ass = dao.getAssesmentByCID(1);
+//            for(Assesment a : ass){
+//                System.out.println(ass);
+//            }
+//        ArrayList<Semester> trans = dao.getTranscript();
+//        for (Semester tran : trans) {
+//            System.out.println(tran);
+//        }
+        ArrayList<Course> c = dao.getCourse();
+        for (Course course : c) {
+            System.out.println(c);
+        }
     }
 }

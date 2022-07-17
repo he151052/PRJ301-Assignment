@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
-import dal.SemesterDAO;
+import dal.GroupDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,31 +12,45 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import model.Assesment;
-import model.Course;
+import model.Group;
+import model.Student;
 
 /**
  *
  * @author oki
  */
-public class AssesmentController extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+public class GroupController extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-    } 
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet GroupController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet GroupController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -45,36 +58,18 @@ public class AssesmentController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        SemesterDAO dao = new SemesterDAO();
-        String cid_raw = request.getParameter("cid");
-        int cid = Integer.parseInt(cid_raw);
-        ArrayList<Assesment> ass = dao.getAssesmentByCID(cid);
+            throws ServletException, IOException {
 
-        float avg = 0;
-        for (Assesment as : ass) {
-            avg = (float) (as.getGrade().getGrade() * as.getWeight() +  avg);
-        }
-        String p = "passed";
-        String n = "not passed";
-        String s = "studying";
-        String status ="";
-        if(avg >= 5.0){
-            status += p;
-        }else if(avg == 0){
-            status += s;
-        }else{
-            status +=n;
-        }
-        
-        request.setAttribute("status", status);
-        request.setAttribute("avg", avg);
-        request.setAttribute("listA", ass);
-        request.getRequestDispatcher("semester").forward(request, response);
-    } 
+        GroupDAO dao = new GroupDAO();
+        ArrayList<Group> g = dao.getGroup();
 
-    /** 
+        request.setAttribute("group", g);
+        request.getRequestDispatcher("teacherScreen.jsp").forward(request, response);
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -82,11 +77,21 @@ public class AssesmentController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+       
+        int gid = Integer.parseInt(request.getParameter("gid"));
+        GroupDAO dao = new GroupDAO();
+        ArrayList<Student> s = dao.getStudent(gid);
+        ArrayList<Group> g = dao.getGroup();
+        request.setAttribute("gid", gid);
+        request.setAttribute("group", g);
+        request.setAttribute("student", s);
+        request.getRequestDispatcher("teacherScreen.jsp").include(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

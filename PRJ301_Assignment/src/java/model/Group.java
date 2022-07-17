@@ -11,6 +11,31 @@ package model;
 public class Group {
     private int gid;
     private String name;
+    private Lecturer lecturer;
+    private Student student;
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" + "gid=" + gid + ", name=" + name + ", lecturer=" + lecturer + ", student=" + student + '}';
+    }
+
+    
+
+    public Lecturer getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
+    }
 
     public Group() {
     }
@@ -38,8 +63,5 @@ public class Group {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Grade{" + "gid=" + gid + ", name=" + name + '}';
-    }
+    
 }

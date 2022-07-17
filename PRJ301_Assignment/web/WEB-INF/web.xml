@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>filter.LoginFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>RoleFilter</filter-name>
+        <filter-class>filter.RoleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RoleFilter</filter-name>
+        <url-pattern>/teachcherScreen.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/semester</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>GradeReport</servlet-name>
         <servlet-class>controller.GradeReport</servlet-class>
@@ -20,6 +36,14 @@
         <servlet-name>AssesmentController</servlet-name>
         <servlet-class>controller.AssesmentController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TrancriptController</servlet-name>
+        <servlet-class>controller.TrancriptController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GroupController</servlet-name>
+        <servlet-class>controller.GroupController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GradeReport</servlet-name>
         <url-pattern>/semester</url-pattern>
@@ -39,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>AssesmentController</servlet-name>
         <url-pattern>/assesment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TrancriptController</servlet-name>
+        <url-pattern>/transcript</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GroupController</servlet-name>
+        <url-pattern>/group</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -13,7 +13,15 @@ import java.util.ArrayList;
 public class Account {
     private String username;
     private String password;
-    private ArrayList<Role> roles = new ArrayList<>();
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public String getUsername() {
         return username;
@@ -31,12 +39,11 @@ public class Account {
         this.password = password;
     }
 
-    public ArrayList<Role> getRoles() {
-        return roles;
+    @Override
+    public String toString() {
+        return "Account{" + "username=" + username + ", password=" + password + ", role=" + role + '}';
     }
 
-    public void setRoles(ArrayList<Role> roles) {
-        this.roles = roles;
-    }
+    
     
 }

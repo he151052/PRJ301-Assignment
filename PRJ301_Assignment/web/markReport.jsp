@@ -56,7 +56,7 @@
             a:hover{
                 color:red;
             }
-
+            
 
         </style>
     </head>
@@ -109,7 +109,7 @@
                                         <tbody>
                                             <c:forEach items="${requestScope.listCO}" var="c">
                                                 <tr>
-                                                    <td><a href="assesment?cid=${c.cid}">${c.cName}</a></td>
+                                                    <td><a href="assesment?cid=${c.cid}"  onclick="myFunction()">${c.cName}</a></td>
 
                                                 </tr>
                                             </c:forEach>
@@ -125,7 +125,7 @@
             </div>
         </div>
 
-        <div class="display_grade"  >
+        <div class="display_grade"  id="event" style="display:none;">
             <caption></caption>
             <table >
                 <thead>
@@ -161,24 +161,31 @@
                         <tr>
                             <td><strong>Status</strong></td>
                         <c:forEach items="${requestScope.status}">
-                            <td><strong style="font-size: 17px;text-transform: uppercase"id="status">${status}</strong></td>
+                            <td><strong style="font-size: 17px;text-transform: uppercase;"id="status">${status}</strong></td>
                             </c:forEach>
                     </tr>
                 </tfoot>
             </table>
         </div>
         <script  language="javascript">
-            var x = document.getElementById("status").innerText ;
-            var p = "passed";
-            var n = "not passed";
-            if(x === n){
-                document.getElementById("status").style.color = "red";
-            }
-            else
+            var x = document.getElementById("status").innerText;
+
+            if (x === 'passed')
             {
                 document.getElementById("status").style.color = "green";
+            } else {
+                document.getElementById("status").style.color = "red";
             }
+            console.log(x);
             
+            var print = document.getElementById("event");
+            
+            if (print.style.display === "none") {
+                print.style.display = "block";
+            } else {
+                print.style.display = "none";
+            }
+            console.log(print);
         </script>
 
     </body>

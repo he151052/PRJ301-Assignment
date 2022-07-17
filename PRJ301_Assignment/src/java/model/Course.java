@@ -14,7 +14,15 @@ public class Course {
     private int cid;
     private String cName;
     private Semester se;
-    
+    private Assesment ass;
+
+    public Assesment getAss() {
+        return ass;
+    }
+
+    public void setAss(Assesment ass) {
+        this.ass = ass;
+    }
     private int credit;
    
 
@@ -67,7 +75,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{" + "cid=" + cid + ", name=" + cName + ", se=" + se + ", credit=" + credit + '}';
+        return "Course{" + "cid=" + cid + ", name=" + cName + ", se=" + se + ", credit=" + credit + ", ass "+ass +'}' +"\n";
     }
     
 }

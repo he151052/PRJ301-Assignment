@@ -43,8 +43,10 @@ public class Assesment {
 
     @Override
     public String toString() {
-        return "Assesment{" + "aid=" + aid + ", name=" + name + ", weight=" + weight + ", course=" + course + '}';
+        return "Assesment{" + "aid=" + aid + ", name=" + name + ", weight=" + weight + ", course=" + course + ", grade=" + grade + '}';
     }
+
+    
 
   
 

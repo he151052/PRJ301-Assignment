@@ -24,7 +24,7 @@
         </div>
         <div class="container" style="margin-top: 20px">
             <a href="semester">Grade Report</a> <br>
-            <a href="">Grade Transcript</a>
+            <a href="transcript">Grade Transcript</a>
         </div>
     </body>
 </html>

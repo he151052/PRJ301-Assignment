@@ -4,6 +4,7 @@
     Author     : oki
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,15 +14,30 @@
     </head>
     <body>
         <div style="width: 80%; margin: 0 auto">
-            <h3>Lecturer sonnt5 </h3>
+            <c:if test="${sessionScope.account != null}">
+                <a href="logout">logout</a>
+                <p style="font-size: 30px">Lecturer <strong> ${sessionScope.account.username}</a></strong> </p>
+            </c:if>
+
             <div style="text-align: center;margin-bottom: 20px">
-                <span><strong style="font-size: 25px"> Group:</strong> </span> <select>
-                    <option>SE1426</option>
-                    <option>SE1427</option>
-                    <option>SE1428</option>
-                </select>
+                <span><strong style="font-size: 25px"> Group:</strong> </span>
+                <form action="group" method="POST">
+                    <select name="gid">
+                        <c:forEach items="${requestScope.group}" var="g"> 
+
+                            <option 
+                                <c:if test="${g.gid eq requestScope.gid}">
+                                    selected="selected"
+                                </c:if>
+                                value="${g.gid}">${g.name}
+                            </option>
+
+                        </c:forEach>
+                    </select>
+                    <input type="submit" value="Select">
+                </form>
             </div>
-<!--            <a href="#" style="float:right">Update</a>-->
+            <!--            <a href="#" style="float:right">Update</a>-->
             <table border="1" style="width: 100%;line-height: 2">
                 <thead>
                     <tr>
@@ -38,54 +54,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>HE151052</td>
-                        <td>Nguyen Van A</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>He151053</td>
-                        <td>Nguyen Van B</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>He151054</td>
-                        <td>Nguyen Van C</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>He151055</td>
-                        <td>Nguyen Van D</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    <c:forEach items="${requestScope.student}" var="s">
+                        <tr>
+                            <td>${s.sid}</td>
+                            <td>${s.name}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </c:forEach>
+
                 </tbody>
             </table>
 
